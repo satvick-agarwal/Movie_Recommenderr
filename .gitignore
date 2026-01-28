@@ -11,3 +11,4 @@ venv/
 
 # Raw / archived data
 data/Archived_Data/
+*.csv
