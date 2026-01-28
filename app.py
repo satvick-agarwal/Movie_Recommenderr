@@ -50,12 +50,12 @@ with tab1:
     )
 
     top_n = st.slider("Number of recommendations", 5, 20, 5)
-    alpha = st.slider(
+    alpha_percent = st.slider(
         "Similarity vs IMDb weight (α)",
-        0.0, 1.0, 0.7,
+        0, 100, 70, step=5,
         help="Higher α → more similarity, lower α → higher IMDb influence"
     )
-
+    alpha = alpha_percent / 100.0
     if st.button("Recommend Movies"):
         results = recommend_by_movie(
             selected_movie,
@@ -76,15 +76,17 @@ with tab2:
 
     mood = st.selectbox(
         "Select your mood",
-        ["happy", "romantic", "sad", "thriller", "action"]
+        ["Happy", "Romantic", "Sad", "Thriller", "Action"]
     )
 
     top_n = st.slider("Number of recommendations", 5, 20, 5, key="mood_top_n")
-    alpha = st.slider(
+    alpha_percent = st.slider(
         "Similarity vs IMDb weight (α)",
-        0.0, 1.0, 0.7,
-        key="mood_alpha"
+        0, 100, 70, step=5,
+        key="mood_alpha",
+        help="Higher α → more mood-friendly, lower α → higher IMDb influence"
     )
+    alpha = alpha_percent / 100.0
 
     if st.button("Recommend by Mood"):
         results = recommend_by_mood(
@@ -133,24 +135,30 @@ with tab3:
 
         w_movie = st.slider(
             "Movie Similarity Weight",
-            0.0, 1.0, 0.4
+            0, 100, 40,
+            step=5,
+            help="Influence of the selected reference movie"
         )
 
         w_mood = st.slider(
             "Mood Similarity Weight",
-            0.0, 1.0, 0.4
+            0, 100, 40,
+            step=5,
+            help="How strongly your mood affects recommendations"
         )
 
         w_imdb = st.slider(
             "IMDb Rating Weight",
-            0.0, 1.0, 0.2
+            0, 100, 20,
+            step=5,
+            help="Preference given to higher IMDb-rated movies"
         )
 
         total = w_movie + w_mood + w_imdb
-        if total != 1.0:
+        if total != 100:
             st.warning(
-                f"⚠️ Weights sum to {total:.2f}. "
-                "They ideally should sum to 1."
+                f"⚠️ Weights sum to {total:}. "
+                "They ideally should sum to 100."
             )
 
     if st.button("Get Hybrid Recommendations"):
@@ -175,15 +183,11 @@ with tab3:
 st.markdown("---")
 st.markdown(
     """
-    <div style="text-align: center;">
+    <div style="text-align: right;">
         <p>
-            👨‍💻 Built by <b>Your Name</b><br>
+            👨‍💻 Built by <b>Satvick Agarwal</b><br>
             🔗 
-            <a href="https://github.com/YOUR_GITHUB_USERNAME" target="_blank">
-                GitHub
-            </a>
-            &nbsp; | &nbsp;
-            <a href="https://www.linkedin.com/in/YOUR_LINKEDIN_USERNAME" target="_blank">
+            <a href="https://www.linkedin.com/in/satvick-agarwal" target="_blank">
                 LinkedIn
             </a>
         </p>
